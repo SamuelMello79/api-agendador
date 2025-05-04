@@ -1,0 +1,13 @@
+package dev.mello.apiagendador;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ApiAgendadorApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
