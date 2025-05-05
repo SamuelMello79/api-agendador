@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: api-agendador
+api:
+  usuario:
+    url: localhost:8080

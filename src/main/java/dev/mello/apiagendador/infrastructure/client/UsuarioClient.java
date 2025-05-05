@@ -1,0 +1,14 @@
+package dev.mello.apiagendador.infrastructure.client;
+
+import dev.mello.apiagendador.business.dto.UsuarioDTO;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@FeignClient(name = "usuario", url = "${api.usuario.url}")
+public interface UsuarioClient {
+
+    @GetMapping
+    UsuarioDTO buscarUsuarioPorEmail(@RequestParam("email") String email, @RequestHeader("Authorization") String token);
+}
