@@ -2,6 +2,9 @@ package dev.mello.apiagendador.business;
 
 import dev.mello.apiagendador.business.dto.TarefaDTO;
 import dev.mello.apiagendador.business.mapper.TarefaMapper;
+import dev.mello.apiagendador.business.mapper.TarefaUpdateMapper;
+import dev.mello.apiagendador.infrastructure.NotFoundException;
+import dev.mello.apiagendador.infrastructure.entity.Tarefa;
 import dev.mello.apiagendador.infrastructure.enums.StatusNotificacao;
 import dev.mello.apiagendador.infrastructure.repository.TarefasRepository;
 import dev.mello.apiagendador.infrastructure.security.JwtUtil;
@@ -16,6 +19,7 @@ import java.util.List;
 public class TarefaService {
     private final TarefasRepository tarefasRepository;
     private final TarefaMapper tarefaMapper;
+    private final TarefaUpdateMapper tarefaUpdateMapper;
     private final JwtUtil jwtUtil;
 
     public TarefaDTO save(TarefaDTO tarefaDTO, String token) {
@@ -26,7 +30,7 @@ public class TarefaService {
         return tarefaMapper.toDto(tarefasRepository.save(tarefaMapper.toEntity(tarefaDTO)));
     }
 
-    public List<TarefaDTO> findForPeriod(LocalDateTime dataInicio,LocalDateTime dataFinal) {
+    public List<TarefaDTO> findForPeriod(LocalDateTime dataInicio, LocalDateTime dataFinal) {
         return tarefasRepository.findByDataEventoBetween(dataInicio, dataFinal)
                 .stream()
                 .map(tarefaMapper::toDto)
@@ -40,5 +44,21 @@ public class TarefaService {
                 .toList();
     }
 
+    public void deleteById(String id) {
+        tarefasRepository.deleteById(id);
+    }
 
+    public TarefaDTO updateStatus(StatusNotificacao status, String id) {
+        Tarefa entity = tarefasRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("A Tarefa com id: " + id + " não foi encontrada"));
+        entity.setStatusNotificacao(status);
+        return tarefaMapper.toDto(tarefasRepository.save(entity));
+    }
+
+    public TarefaDTO updateTarefa(TarefaDTO dto, String id) {
+        Tarefa entity = tarefasRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("A Tarefa com id: " + id + " não foi encontrada"));
+        tarefaUpdateMapper.updateTarefas(dto, entity);
+        return tarefaMapper.toDto(tarefasRepository.save(entity));
+    }
 }

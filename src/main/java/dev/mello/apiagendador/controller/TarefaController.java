@@ -2,7 +2,7 @@ package dev.mello.apiagendador.controller;
 
 import dev.mello.apiagendador.business.TarefaService;
 import dev.mello.apiagendador.business.dto.TarefaDTO;
-import lombok.Getter;
+import dev.mello.apiagendador.infrastructure.enums.StatusNotificacao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -36,4 +36,21 @@ public class TarefaController {
         return ResponseEntity.ok(tarefaService.findTarefaByEmail(token));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletaTarefaPorId(@PathVariable String id) {
+        tarefaService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<TarefaDTO> atualizarStatusTarefa(@RequestParam("status") StatusNotificacao status,
+                                                           @RequestParam("id") String id) {
+        return ResponseEntity.ok(tarefaService.updateStatus(status, id));
+    }
+
+    @PutMapping
+    public ResponseEntity<TarefaDTO> atualizarDadosTarefa(@RequestBody TarefaDTO tarefaDTO,
+                                                          @RequestParam("id") String id) {
+        return ResponseEntity.ok(tarefaService.updateTarefa(tarefaDTO, id));
+    }
 }
