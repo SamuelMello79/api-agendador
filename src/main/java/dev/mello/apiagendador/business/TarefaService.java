@@ -3,7 +3,7 @@ package dev.mello.apiagendador.business;
 import dev.mello.apiagendador.business.dto.TarefaDTO;
 import dev.mello.apiagendador.business.mapper.TarefaMapper;
 import dev.mello.apiagendador.business.mapper.TarefaUpdateMapper;
-import dev.mello.apiagendador.infrastructure.NotFoundException;
+import dev.mello.apiagendador.infrastructure.exception.NotFoundException;
 import dev.mello.apiagendador.infrastructure.entity.Tarefa;
 import dev.mello.apiagendador.infrastructure.enums.StatusNotificacao;
 import dev.mello.apiagendador.infrastructure.repository.TarefasRepository;
@@ -31,7 +31,7 @@ public class TarefaService {
     }
 
     public List<TarefaDTO> findForPeriod(LocalDateTime dataInicio, LocalDateTime dataFinal) {
-        return tarefasRepository.findByDataEventoBetween(dataInicio, dataFinal)
+        return tarefasRepository.findByDataEventoBetweenAndStatusNotificacao(dataInicio, dataFinal, StatusNotificacao.PENDENTE)
                 .stream()
                 .map(tarefaMapper::toDto)
                 .toList();
