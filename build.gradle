@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = 'dev.mello'
@@ -56,4 +57,12 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "api-agendador"
+		property "sonar.host.url", "http://localhost:9000"
+		property "sonar.login", "sqa_bc434b11142d793aa40ae322f91ad3f835686e18"
+	}
 }

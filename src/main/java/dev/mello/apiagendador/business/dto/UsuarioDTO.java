@@ -2,8 +2,6 @@ package dev.mello.apiagendador.business.dto;
 
 import lombok.*;
 
-import java.util.List;
-
 @Builder
 @Setter @Getter
 @AllArgsConstructor
