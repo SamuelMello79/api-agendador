@@ -3,9 +3,9 @@ spring:
     name: api-agendador
   data:
     mongodb:
-      uri: mongodb://localhost:27017/db_agendador
+      uri: ${MONGO_URL}
 server:
-  port: 8081
+  port: ${SERVER_PORT}
 api:
   usuario:
-    url: localhost:8080
+    url: ${USUARIO_URL}

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tarefas")
+@RequestMapping("/api/tarefas")
 @RequiredArgsConstructor
 public class TarefaController {
     private final TarefaService tarefaService;
